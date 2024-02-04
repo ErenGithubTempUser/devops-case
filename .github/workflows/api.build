@@ -1,0 +1,22 @@
+name: CI/CD API
+
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  APP_NAME: ruby_api
+  SRC_PATH: api
+  REGISTRY: anilerencelik
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.APP_NAME }}:latest .
