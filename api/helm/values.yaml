@@ -1,0 +1,8 @@
+name: ruby_api
+namespace: case
+health_check_path: /
+port: 3000
+target_port: 300
+tag: 1.0.0
+registry: anilerencelik
+configmap: ruby_api

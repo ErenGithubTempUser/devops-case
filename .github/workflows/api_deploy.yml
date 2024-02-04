@@ -1,0 +1,28 @@
+name: Ruby_API CD
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_version:
+        description: 'Image version'
+        required: true
+
+env:
+  APP_NAME: ruby_api
+  SRC_PATH: api
+  HELM_BASE_PATH: helm
+  NAMESPACE: default
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set IMage Version
+        run: echo "IMAGE_VERSION=${{ github.event.inputs.image_version }}" >> $GITHUB_ENV
+
+      - name: Deploy with Helm
+        run: |
+          echo "helm upgrade --install $APP_NAME -n $NAMESPACE $SRC_PATH/$HELM_BASE_PATH --set tag=$IMAGE_VERSION"
