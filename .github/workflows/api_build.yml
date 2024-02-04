@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Run DB initilazer
         run: |
-          docker run --rm -e REDIS_URL=${{ secrets.REDIS_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e PIDFILE=${{ secrets.PIDFILE }} --it ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} bundle exec rails db:create
+          docker run --rm -e REDIS_URL=${{ secrets.REDIS_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e PIDFILE=${{ secrets.PIDFILE }} ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} bundle exec rails db:create
 
   migrate_db:
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Run DB migrator
         run: |
-          docker run --rm -e REDIS_URL=${{ secrets.REDIS_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e PIDFILE=${{ secrets.PIDFILE }} --it ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} bundle exec rails db:migrate db:seed
+          docker run --rm -e REDIS_URL=${{ secrets.REDIS_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e PIDFILE=${{ secrets.PIDFILE }} ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} bundle exec rails db:migrate db:seed
 
   test:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Runing rake test
         run: |
-          docker run --rm -e REDIS_URL=${{ secrets.REDIS_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e PIDFILE=${{ secrets.PIDFILE }} --it ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} bundle exec rake test
+          docker run --rm -e REDIS_URL=${{ secrets.REDIS_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e PIDFILE=${{ secrets.PIDFILE }} ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }} bundle exec rake test
         
   push:
     runs-on: ubuntu-latest
