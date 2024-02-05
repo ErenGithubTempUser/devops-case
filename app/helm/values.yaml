@@ -1,0 +1,7 @@
+name: ruby_app
+namespace: case
+health_check_path: /
+port: 80
+target_port: 80
+tag: 1.0.0
+registry: anilerencelik

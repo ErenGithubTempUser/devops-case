@@ -1,0 +1,29 @@
+name: Ruby_APP CI
+
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  APP_NAME: ruby_app
+  SRC_PATH: app
+  REGISTRY: anilerencelik
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: |
+          cd $SRC_PATH
+          sed -i.bak 's|localhost|${{ secrets.API_URL}}|g' .env
+          docker build -t ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}  .
+
+      - name: Push Docker Image
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker push ${{ env.REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}

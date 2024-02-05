@@ -1,4 +1,4 @@
-name: Ruby_API CD
+name: Ruby_APP CD
 
 on:
   workflow_dispatch:
@@ -8,13 +8,13 @@ on:
         required: true
 
 env:
-  APP_NAME: ruby_api
-  SRC_PATH: api
+  APP_NAME: ruby_app
+  SRC_PATH: app
   HELM_BASE_PATH: helm
   NAMESPACE: default
-
+        
 jobs:
-  deploy:
+  pipeline:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
