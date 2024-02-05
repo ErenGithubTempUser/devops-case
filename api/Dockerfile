@@ -1,19 +1,23 @@
-FROM ruby:2.5.5-buster
+FROM ruby:2.5.5-alpine as base
 
 USER root
 
-RUN apt update
-RUN apt install ruby build-essential ruby2.5-dev postgresql-server-dev-all -y
+RUN apk add postgresql-dev tzdata
 
-WORKDIR /api
+FROM base as dependencies 
 
-COPY . .
+RUN apk add build-base
 
-RUN useradd -m appuser
-
-USER appuser
-
-COPY --chown=appuser . ./
+COPY Gemfile Gemfile.lock ./
 
 RUN gem install bundler -v 2.2.30
 RUN bundle install
+
+FROM base 
+
+RUN adduser -D appuser
+
+USER appuser
+
+COPY --from=dependencies /usr/local/bundle/ /usr/local/bundle/
+COPY --chown=appuser . ./
